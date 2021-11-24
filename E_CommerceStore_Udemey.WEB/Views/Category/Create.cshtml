@@ -13,7 +13,7 @@
     <div class="mb-3">
         <label asp-for="Name"></label>
         <input asp-for="Name" class="form-control" />
-       <!--Valid message-->
+        <!--Valid message-->
         <span asp-validation-for="Name" class="text-danger"></span>
 
     </div>
@@ -29,9 +29,13 @@
 
 <!-- Client Validation -->
 
-@section Scripts{ 
-  @{ 
-   <partial name="_ValidationScriptsPartial" />
- }
+
+@*@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
- 

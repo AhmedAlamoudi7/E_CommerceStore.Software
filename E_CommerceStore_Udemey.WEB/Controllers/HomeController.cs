@@ -1,4 +1,4 @@
-﻿using E_CommerceStore_Udemey.WEB.Models;
+﻿using E_CommerceStore_Udemey.DATA.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;

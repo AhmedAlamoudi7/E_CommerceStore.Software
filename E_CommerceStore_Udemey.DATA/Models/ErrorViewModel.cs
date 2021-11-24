@@ -1,6 +1,6 @@
 using System;
 
-namespace E_CommerceStore_Udemey.WEB.Models
+namespace E_CommerceStore_Udemey.DATA.Models
 {
     public class ErrorViewModel
     {

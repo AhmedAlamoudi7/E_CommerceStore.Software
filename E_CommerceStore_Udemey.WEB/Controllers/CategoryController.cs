@@ -1,5 +1,5 @@
-﻿using E_CommerceStore_Udemey.WEB.Data;
-using E_CommerceStore_Udemey.WEB.Models;
+﻿using E_CommerceStore_Udemey.DATA.Data;
+using E_CommerceStore_Udemey.DATA.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

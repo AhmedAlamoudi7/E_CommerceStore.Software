@@ -1,11 +1,11 @@
-﻿using E_CommerceStore_Udemey.WEB.Models;
+﻿using E_CommerceStore_Udemey.DATA.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace E_CommerceStore_Udemey.WEB.Data
+namespace E_CommerceStore_Udemey.DATA.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
