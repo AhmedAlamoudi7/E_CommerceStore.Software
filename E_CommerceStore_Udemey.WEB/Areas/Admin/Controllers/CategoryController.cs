@@ -1,5 +1,7 @@
-﻿using E_CommerceStore_Udemey.DATA.Data;
+﻿using E_CommerceStore_Udemey.Core.Dtos;
+using E_CommerceStore_Udemey.DATA.Data;
 using E_CommerceStore_Udemey.DATA.Models;
+using E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,18 +10,21 @@ using System.Threading.Tasks;
 
 namespace E_CommerceStore_Udemey.WEB.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _Db;
+        private readonly ICategoryService _categoryService;
 
-        public CategoryController(ApplicationDbContext db)
+        public CategoryController(ApplicationDbContext db, ICategoryService categoryService)
         {
             _Db = db;
+            _categoryService = categoryService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var category = _Db.Categories.ToList();
+            var category =await  _categoryService.GetAll();
             return View(category);
         }
 
@@ -31,107 +36,78 @@ namespace E_CommerceStore_Udemey.WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Category category)
+        public async Task<IActionResult> Create(CreateCategoryDto dto)
         {
             //var categoryDb = new Category();
             //categoryDb.Name = category.Name;
             //categoryDb.DisplayOrder = category.DisplayOrder;
 
             // validMessage in Sammerry just appear
-            if (category.Name == category.DisplayOrder.ToString())
+            if (dto.Name == dto.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("CustomErorr", "The DisplayOrder cannot exactly math the Name.");
             }
             if (ModelState.IsValid)
             {
-                await _Db.Categories.AddAsync(category);
-                await _Db.SaveChangesAsync();
+                 await _categoryService.Create(dto);             
                 TempData["success"] = "Create Category Successfully";
                 return RedirectToAction("Index");
             }
-            else { return View(category); }
+            else { return View(dto); }
         }
 
 
 
 
-        public IActionResult Edit(int? Id)
+        public async Task<IActionResult> Edit(int Id)
         {
-            if (Id == null || Id == 0)
-            {
-                return NotFound();
-            }
-            var category = _Db.Categories.Find(Id);
-            if (category == null)
-            {
-                return NotFound();
-            }
-
+   
+            var category = await _categoryService.Get(Id);
             return View(category);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Category category)
+        public async Task<IActionResult> Edit(UpdateCategoryDto  dto)
         {
             //var categoryDb = new Category();
             //categoryDb.Name = category.Name;
             //categoryDb.DisplayOrder = category.DisplayOrder;
 
             // validMessage in Sammerry just appear
-            if (category.Name == category.DisplayOrder.ToString())
+            if (dto.Name == dto.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("CustomErorr", "The DisplayOrder cannot exactly math the Name.");
             }
             if (ModelState.IsValid)
             {
-                _Db.Categories.Update(category);
-                await _Db.SaveChangesAsync();
+                await _categoryService.Update(dto);
                 TempData["success"] = "Edit Category Successfully";
-
                 return RedirectToAction("Index");
             }
-            else { return View(category); }
+            else { return View(dto); }
         }
 
 
 
-
-
-        public IActionResult Delete(int? Id)
+        public async Task<IActionResult> Delete(int Id)
         {
-            if (Id == null || Id == 0)
-            {
-                return NotFound();
-            }
-            var category = _Db.Categories.Find(Id);
-            if (category == null)
-            {
-                return NotFound();
-            }
 
+            var category = await _categoryService.Get(Id); 
             return View(category);
         }
 
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int? Id)
+        public async Task<IActionResult> DeletePost(UpdateCategoryDto dto)
         {
-            var category = _Db.Categories.Find(Id);
 
-            if (category == null)
-            {
-                return NotFound();
-            }
-            _Db.Categories.Remove(category);
-            _Db.SaveChanges();
-            TempData["success"] = "Delete Category Successfully";
-
+            await _categoryService.Delete(dto);
+            TempData["success"] = "Edit Category Successfully";
             return RedirectToAction("Index");
+
         }
-
-
     }
 
 }

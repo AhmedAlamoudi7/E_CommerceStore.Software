@@ -1,4 +1,7 @@
 using E_CommerceStore_Udemey.DATA.Data;
+using E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices;
+using E_CommerceStore_Udemey.Infrastructure.Services.CoverTypeServices;
+using FourEstate.Infrastructure.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +38,10 @@ namespace E_CommerceStore_Udemey.WEB
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            services.AddAutoMapper(typeof(MapperProfile).Assembly);
+            services.AddScoped<ICategoryService,CategoryService>();
+            services.AddScoped<ICoverTypeService, CoverTypeService>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 
@@ -64,7 +71,7 @@ namespace E_CommerceStore_Udemey.WEB
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

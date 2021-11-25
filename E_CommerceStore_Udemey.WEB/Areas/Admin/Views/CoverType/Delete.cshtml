@@ -1,0 +1,18 @@
+﻿@model UpdateCoverTypeDto
+
+<form method="post" asp-action="DeletePost">
+    <input type="hidden" asp-for="Id" />
+    <div class="border p-3 mt-4">
+        <div class="row pb-4">
+            <h2 class="text-primary">Delete Category</h2>
+            <hr />
+        </div>
+
+    </div>
+    <div class="mb-3">
+        <label asp-for="CoverName"></label>
+        <input asp-for="CoverName" disabled class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
+    <a asp-controller="CoverType" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
