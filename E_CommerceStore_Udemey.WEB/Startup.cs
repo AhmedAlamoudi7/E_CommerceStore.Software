@@ -1,6 +1,7 @@
 using E_CommerceStore_Udemey.DATA.Data;
 using E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.CoverTypeServices;
+using E_CommerceStore_Udemey.Infrastructure.Services.ProductService;
 using FourEstate.Infrastructure.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,6 +43,8 @@ namespace E_CommerceStore_Udemey.WEB
             services.AddAutoMapper(typeof(MapperProfile).Assembly);
             services.AddScoped<ICategoryService,CategoryService>();
             services.AddScoped<ICoverTypeService, CoverTypeService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
 

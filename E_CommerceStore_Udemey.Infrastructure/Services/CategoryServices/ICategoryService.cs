@@ -15,5 +15,6 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices
         Task<int> Update(UpdateCategoryDto dto);
         Task<UpdateCategoryDto> Get(int Id);
         Task<int> Delete(UpdateCategoryDto dto);
+        Task<List<CategoryViewModel>> GetCategoryName();
     }
 }

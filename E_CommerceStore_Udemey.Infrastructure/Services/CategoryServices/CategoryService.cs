@@ -32,8 +32,14 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices
         }
 
 
-        
-            public async Task<int> Create(CreateCategoryDto dto) {
+        public async Task<List<CategoryViewModel>> GetCategoryName()
+        {
+            var category = await _Db.Categories.ToListAsync();/*Where(/*x => !x.IsDelete)*/
+            return _mapper.Map<List<CategoryViewModel>>(category);
+        }
+
+
+        public async Task<int> Create(CreateCategoryDto dto) {
             var mapper = _mapper.Map<CreateCategoryDto, Category>(dto);
             await _Db.Categories.AddAsync(mapper);
             await _Db.SaveChangesAsync();
@@ -78,7 +84,7 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices
             var mapper = _mapper.Map<UpdateCategoryDto, Category>(dto, category);
             _Db.Categories.Remove(mapper);
             await _Db.SaveChangesAsync();
-            return mapper.Id; ;
+            return mapper.Id; 
         }
 
     }

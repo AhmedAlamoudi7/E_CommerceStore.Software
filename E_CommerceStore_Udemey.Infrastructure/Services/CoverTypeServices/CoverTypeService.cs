@@ -33,6 +33,13 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.CoverTypeServices
         }
 
 
+        public async Task<List<CoverTypeViewModel>> GetCoverTypeName()
+        {
+            var coverType = await _Db.CoverTypes.ToListAsync();/*Where(/*x => !x.IsDelete)*/
+            return _mapper.Map<List<CoverTypeViewModel>>(coverType);
+        }
+
+
         public async Task<UpdateCoverTypeDto> Get(int Id) 
         {
             var cover = await _Db.CoverTypes.SingleOrDefaultAsync(x => x.Id == Id);

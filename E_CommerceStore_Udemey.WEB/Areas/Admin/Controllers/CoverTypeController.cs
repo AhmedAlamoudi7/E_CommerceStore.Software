@@ -86,7 +86,7 @@ namespace E_CommerceStore_Udemey.WEB.Controllers
         {
 
             await _coverTypeService.Delete(dto);
-            TempData["success"] = "Edit Cover Type Successfully";
+            TempData["success"] = "Delete Cover Type Successfully";
             return RedirectToAction("Index");
 
         }

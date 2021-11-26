@@ -104,7 +104,7 @@ namespace E_CommerceStore_Udemey.WEB.Controllers
         {
 
             await _categoryService.Delete(dto);
-            TempData["success"] = "Edit Category Successfully";
+            TempData["success"] = "Delete Category Successfully";
             return RedirectToAction("Index");
 
         }

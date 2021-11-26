@@ -15,5 +15,6 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.CoverTypeServices
         Task<int> Create(CreateCoverTypeDto dto);
         Task<int> Update(UpdateCoverTypeDto dto);
         Task<int> Delete(UpdateCoverTypeDto dto);
+        Task<List<CoverTypeViewModel>> GetCoverTypeName();
     }
 }

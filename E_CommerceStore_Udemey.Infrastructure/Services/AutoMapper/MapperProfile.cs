@@ -26,6 +26,15 @@ namespace FourEstate.Infrastructure.AutoMapper
             CreateMap<CreateCoverTypeDto, CoverType>();
             CreateMap<UpdateCoverTypeDto, CoverType>();
             CreateMap<CoverType, UpdateCoverTypeDto>();
+
+
+            CreateMap<Product, ProductViewModel>()
+             .ForMember(x => x.CategoryVMName, x => x.MapFrom(x => x.Category.Name.ToString()))
+             .ForMember(x => x.CoverTypeVMName, x => x.MapFrom(x => x.CoverType.CoverName.ToString()))
+            ;
+            CreateMap<CreateProductDto, Product>();
+            CreateMap<UpdateProductDto, Product>();
+            CreateMap<Product, UpdateProductDto>();
         }
     }
 }

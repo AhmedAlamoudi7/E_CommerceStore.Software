@@ -1,0 +1,97 @@
+﻿@model UpdateProductDto
+
+<form method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-4">
+            <h2>Edit Product</h2>
+            <hr />
+        </div>
+
+    </div>
+    <!--To Show All Erorr Valid -->
+    <div asp-validation-summary="All"></div>
+    <div class="mb-3">
+        <label asp-for="Title"></label>
+        <input asp-for="Title" class="form-control" />
+        <!--Valid message-->
+        <span asp-validation-for="Title" class="text-danger"></span>
+
+    </div>
+    <div class="mb-3">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" class="form-control" />
+        <!--Valid message-->
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ISBN"></label>
+        <input asp-for="ISBN" class="form-control" />
+        <!--Valid message-->
+        <span asp-validation-for="ISBN" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Author"></label>
+        <input asp-for="Author" class="form-control" />
+        <!--Valid message-->
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ListPrice"></label>
+        <input asp-for="ListPrice" class="form-control" />
+        <!--Valid message-->
+        <span asp-validation-for="ListPrice" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price100"></label>
+        <input asp-for="Price100" class="form-control" />
+        <!--Valid message-->
+        <span asp-validation-for="Price100" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price"></label>
+        <input asp-for="Price" class="form-control" />
+        <!--Valid message-->
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="ImageUrl"></label>
+        <input asp-for="ImageUrl" class="form-control" />
+        <!--Valid message-->
+        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId"></label>
+        <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.category">
+            <option class="form-select" disabled>-- Select Category --</option>
+        </select>
+        <!--Valid message-->
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CoverTypeId"></label>
+        <select asp-for="CoverTypeId" class="form-control" asp-items="@ViewBag.coverType">
+            <option class="form-select" disabled>-- Select CoverType --</option>
+
+        </select>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Edit</button>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+<!-- Client Validation -->
+@*@section Scripts{
+        @{
+            <partial name="_ValidationScriptsPartial" />
+        }
+    }*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
