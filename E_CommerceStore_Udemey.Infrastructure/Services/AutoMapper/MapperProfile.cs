@@ -32,9 +32,13 @@ namespace FourEstate.Infrastructure.AutoMapper
              .ForMember(x => x.CategoryVMName, x => x.MapFrom(x => x.Category.Name.ToString()))
              .ForMember(x => x.CoverTypeVMName, x => x.MapFrom(x => x.CoverType.CoverName.ToString()))
             ;
-            CreateMap<CreateProductDto, Product>();
-            CreateMap<UpdateProductDto, Product>();
-            CreateMap<Product, UpdateProductDto>();
+            CreateMap<CreateProductDto, Product>()
+                .ForMember(x => x.ImageUrl, x => x.Ignore());
+            CreateMap<UpdateProductDto, Product>()
+                .ForMember(x => x.ImageUrl, x => x.Ignore());
+            CreateMap<Product, UpdateProductDto>()
+                .ForMember(x => x.ImageUrl, x => x.Ignore());
+
         }
     }
 }

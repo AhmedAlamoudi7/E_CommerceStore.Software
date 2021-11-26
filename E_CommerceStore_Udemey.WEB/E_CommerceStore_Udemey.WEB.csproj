@@ -19,4 +19,8 @@
     <ProjectReference Include="..\E_CommerceStore_Udemey.Infrastructure\E_CommerceStore_Udemey.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
 </Project>

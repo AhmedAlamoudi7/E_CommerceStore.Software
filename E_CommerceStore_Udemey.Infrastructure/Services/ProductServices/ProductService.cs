@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using E_CommerceStore_Udemey.Core.Constans;
 using E_CommerceStore_Udemey.Core.Dtos;
 using E_CommerceStore_Udemey.Core.ViewModels;
 using E_CommerceStore_Udemey.DATA.Data;
 using E_CommerceStore_Udemey.DATA.Models;
+using E_CommerceStore_Udemey.Infrastructure.Services.FileSerice;
 using FourEstate.Infrastructure.AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,11 +19,12 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.ProductService
     {
         private readonly ApplicationDbContext _Db;
         private readonly IMapper _mapper;
-
-        public ProductService(ApplicationDbContext db, IMapper mapper)
+        private readonly IFileService _fileService;
+        public ProductService(ApplicationDbContext db, IMapper mapper, IFileService fileService)
         {
             _Db = db;
             _mapper = mapper;
+            _fileService = fileService;
         }
 
         public async Task<List<ProductViewModel>> GetAll() {
@@ -34,6 +37,10 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.ProductService
 
         public async Task<int> Create(CreateProductDto dto) {
             var mapper = _mapper.Map<CreateProductDto, Product>(dto);
+            if (dto.ImageUrl != null)
+            {
+                mapper.ImageUrl = await _fileService.SaveFile(dto.ImageUrl, FolderNames.ImagesFolder);
+            }
             await _Db.Products.AddAsync(mapper);
             await _Db.SaveChangesAsync();
             return mapper.Id;
@@ -56,6 +63,10 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.ProductService
         public async Task<int> Update(UpdateProductDto dto) {
             var product =await _Db.Products.SingleOrDefaultAsync(x => x.Id == dto.Id);
             var mapper = _mapper.Map<UpdateProductDto, Product>(dto,product);
+            if (dto.ImageUrl != null)
+            {
+                mapper.ImageUrl = await _fileService.SaveFile(dto.ImageUrl, FolderNames.ImagesFolder);
+            }
             _Db.Products.Update(mapper);
             await _Db.SaveChangesAsync();
             return mapper.Id;

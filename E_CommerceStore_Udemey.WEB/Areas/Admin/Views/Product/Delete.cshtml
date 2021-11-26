@@ -1,6 +1,6 @@
 ﻿@model UpdateProductDto
 
-<form method="post" asp-action="DeletePost">
+<form method="post" asp-action="DeletePost" enctype="multipart/form-data">
     <input type="hidden" asp-for="Id" />
 
     <div class="border p-3 mt-4">
@@ -14,63 +14,63 @@
     <div asp-validation-summary="All"></div>
     <div class="mb-3">
         <label asp-for="Title"></label>
-        <input asp-for="Title" class="form-control" />
+        <input asp-for="Title"disabled class="form-control" />
         <!--Valid message-->
         <span asp-validation-for="Title" class="text-danger"></span>
 
     </div>
     <div class="mb-3">
         <label asp-for="Description"></label>
-        <input asp-for="Description" class="form-control" />
+        <input asp-for="Description"disabled class="form-control" />
         <!--Valid message-->
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="ISBN"></label>
-        <input asp-for="ISBN" class="form-control" />
+        <input asp-for="ISBN"disabled class="form-control" />
         <!--Valid message-->
         <span asp-validation-for="ISBN" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="Author"></label>
-        <input asp-for="Author" class="form-control" />
+        <input asp-for="Author"disabled class="form-control" />
         <!--Valid message-->
         <span asp-validation-for="Author" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="ListPrice"></label>
-        <input asp-for="ListPrice" class="form-control" />
+        <input asp-for="ListPrice"disabled class="form-control" />
         <!--Valid message-->
         <span asp-validation-for="ListPrice" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="Price100"></label>
-        <input asp-for="Price100" class="form-control" />
+        <input asp-for="Price100"disabled class="form-control" />
         <!--Valid message-->
         <span asp-validation-for="Price100" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="Price"></label>
-        <input asp-for="Price" class="form-control" />
+        <input asp-for="Price"disabled class="form-control" />
         <!--Valid message-->
         <span asp-validation-for="Price" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="ImageUrl"></label>
-        <input asp-for="ImageUrl" class="form-control" />
+        <input asp-for="ImageUrl" type="file" disabled class="form-control" />
         <!--Valid message-->
         <span asp-validation-for="ImageUrl" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label asp-for="CategoryId"></label>
-        <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.category">
+        <select asp-for="CategoryId" disabled class="form-control" asp-items="@ViewBag.category">
             <option class="form-select" disabled>-- Select Category --</option>
         </select>
         <!--Valid message-->
@@ -78,7 +78,7 @@
     </div>
     <div class="mb-3">
         <label asp-for="CoverTypeId"></label>
-        <select asp-for="CoverTypeId" class="form-control" asp-items="@ViewBag.coverType">
+        <select asp-for="CoverTypeId" disabled class="form-control" asp-items="@ViewBag.coverType">
             <option class="form-select" disabled>-- Select CoverType --</option>
 
         </select>

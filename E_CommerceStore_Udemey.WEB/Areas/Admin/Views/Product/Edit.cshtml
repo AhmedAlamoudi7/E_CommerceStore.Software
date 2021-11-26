@@ -1,6 +1,6 @@
 ﻿@model UpdateProductDto
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div class="border p-3 mt-4">
         <div class="row pb-4">
             <h2>Edit Product</h2>
@@ -61,7 +61,7 @@
 
     <div class="mb-3">
         <label asp-for="ImageUrl"></label>
-        <input asp-for="ImageUrl" class="form-control" />
+        <input asp-for="ImageUrl"type="file" class="form-control" />
         <!--Valid message-->
         <span asp-validation-for="ImageUrl" class="text-danger"></span>
     </div>

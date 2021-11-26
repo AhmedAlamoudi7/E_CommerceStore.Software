@@ -1,9 +1,9 @@
 ﻿@model CreateProductDto
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div class="border p-3 mt-4">
         <div class="row pb-4">
-            <h2 class="text-primary">Create Product</h2>
+            <h2>Creata Product</h2>
             <hr />
         </div>
 
@@ -61,33 +61,36 @@
 
     <div class="mb-3">
         <label asp-for="ImageUrl"></label>
-        <input asp-for="ImageUrl" class="form-control" />
+        <input asp-for="ImageUrl" type="file" class="form-control" />
         <!--Valid message-->
         <span asp-validation-for="ImageUrl" class="text-danger"></span>
     </div>
+
     <div class="mb-3">
         <label asp-for="CategoryId"></label>
         <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.category">
-            <option disabled selected class="form-select"> << Select >></option>
+            <option class="form-select" disabled>-- Select Category --</option>
         </select>
         <!--Valid message-->
         <span asp-validation-for="CategoryId" class="text-danger"></span>
     </div>
+    <div class="mb-3">
+        <label asp-for="CoverTypeId"></label>
+        <select asp-for="CoverTypeId" class="form-control" asp-items="@ViewBag.coverType">
+            <option class="form-select" disabled>-- Select CoverType --</option>
 
-
-
+        </select>
+    </div>
     <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
     <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
 
 <!-- Client Validation -->
-
-
 @*@section Scripts{
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-}*@
+        @{
+            <partial name="_ValidationScriptsPartial" />
+        }
+    }*@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

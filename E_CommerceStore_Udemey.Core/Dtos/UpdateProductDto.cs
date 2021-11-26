@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -28,7 +29,8 @@ namespace E_CommerceStore_Udemey.Core.Dtos
         [Required]
         [Range(1, 10000)]
         public double Price100 { get; set; }
-        public string ImageUrl { get; set; }
+
+        public IFormFile ImageUrl { get; set; }
 
         public int CategoryId { get; set; }
 
