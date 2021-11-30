@@ -2,7 +2,9 @@ using E_CommerceStore_Udemey.DATA.Data;
 using E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.CoverTypeServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.FileSerice;
+using E_CommerceStore_Udemey.Infrastructure.Services.Middlewares;
 using E_CommerceStore_Udemey.Infrastructure.Services.ProductService;
+using E_CommerceStore_Udemey.Infrastructure.Services.ShoppingCartServices;
 using FourEstate.Infrastructure.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -46,6 +48,8 @@ namespace E_CommerceStore_Udemey.WEB
             services.AddScoped<ICoverTypeService, CoverTypeService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IShoppingCartService, ShoppingCartService>();
+
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
@@ -71,7 +75,7 @@ namespace E_CommerceStore_Udemey.WEB
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            //app.UseExceptionHandler(opts => opts.UseMiddleware<ExceptionHandler>());
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

@@ -23,6 +23,8 @@ namespace E_CommerceStore_Udemey.Core.ViewModels
         public double Price { get; set; }
 
         public double Price100 { get; set; }
+        public double Price50 { get; set; }
+
         public string ImageUrl { get; set; }
 
         public string CategoryVMName { get; set; }

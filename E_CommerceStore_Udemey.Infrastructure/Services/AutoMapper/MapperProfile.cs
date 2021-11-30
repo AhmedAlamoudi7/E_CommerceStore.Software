@@ -15,8 +15,10 @@ namespace FourEstate.Infrastructure.AutoMapper
     {
         public MapperProfile()
         {
-          
-            CreateMap<Category, CategoryViewModel>();
+
+            CreateMap<Category, CategoryViewModel>()
+                .ForMember(x => x.CratedDateTime, x => x.MapFrom(x => x.CratedDateTime.ToString()));
+
             CreateMap<CreateCategoryDto, Category>();
             CreateMap<UpdateCategoryDto, Category>();
             CreateMap<Category, UpdateCategoryDto>();
@@ -30,8 +32,8 @@ namespace FourEstate.Infrastructure.AutoMapper
 
             CreateMap<Product, ProductViewModel>()
              .ForMember(x => x.CategoryVMName, x => x.MapFrom(x => x.Category.Name.ToString()))
-             .ForMember(x => x.CoverTypeVMName, x => x.MapFrom(x => x.CoverType.CoverName.ToString()))
-            ;
+             .ForMember(x => x.CoverTypeVMName, x => x.MapFrom(x => x.CoverType.CoverName.ToString()));
+
             CreateMap<CreateProductDto, Product>()
                 .ForMember(x => x.ImageUrl, x => x.Ignore());
             CreateMap<UpdateProductDto, Product>()

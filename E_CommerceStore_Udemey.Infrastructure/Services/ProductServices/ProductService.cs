@@ -28,10 +28,23 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.ProductService
         }
 
         public async Task<List<ProductViewModel>> GetAll() {
-            var product = await _Db.Products.Include(x=>x.Category).Include(x=>x.CoverType).ToListAsync();
-            var mapper = _mapper.Map<List<ProductViewModel>>(product);
+            var product = await _Db.Products.Include(x=>x.Category).Include(x=>x.CoverType)
+                .Select(x=>new ProductViewModel() { 
+                Id = x.Id,
+                Title =x.Title,
+                Author =x.Author,
+                CategoryVMName =x.Category.Name,
+                CoverTypeVMName =x.CoverType.CoverName,
+                    Description = x.Description,
+                    ImageUrl = x.ImageUrl.ToString(),
+                    ISBN = x.ISBN,
+                    ListPrice = x.ListPrice,
+                    Price = x.Price,
+                    Price100 = x.Price100
+                }).ToListAsync();
+            //var mapper = _mapper.Map<List<ProductViewModel>>(product);
 
-            return mapper;
+            return product;
         }
 
 
@@ -82,13 +95,16 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.ProductService
             return _mapper.Map<UpdateProductDto>(product);
         }
 
-        public async Task<int> Delete(UpdateProductDto dto)
+
+
+
+
+        public async Task<int> Delete(int id)
         {
-            var product = await _Db.Products.SingleOrDefaultAsync(x => x.Id == dto.Id);
-            var mapper = _mapper.Map<UpdateProductDto, Product>(dto, product);
-            _Db.Products.Remove(mapper);
+            var product = await _Db.Products.SingleOrDefaultAsync(x => x.Id == id);
+            _Db.Products.Remove(product);
             await _Db.SaveChangesAsync();
-            return mapper.Id;
+            return product.Id;
         }
 
     }

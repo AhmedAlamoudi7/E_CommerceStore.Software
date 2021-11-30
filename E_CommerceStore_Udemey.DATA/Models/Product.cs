@@ -17,6 +17,7 @@ namespace E_CommerceStore_Udemey.DATA.Models
         [MaxLength(70)]
         public string Description { get; set; }
         [Required]
+        // International Standard Book Number
         public string ISBN { get; set; }
         [Required]
         public string Author { get; set; }
@@ -29,6 +30,9 @@ namespace E_CommerceStore_Udemey.DATA.Models
         [Required]
         [Range(1, 10000)]
         public double Price100 { get; set; }
+        [Required]
+        [Range(1, 10000)]
+        public double Price50 { get; set; }
         public string ImageUrl { get; set; }
 
         public int CategoryId { get; set; }
