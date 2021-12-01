@@ -74,16 +74,16 @@
     <div class="row">
         <div class="mb-3 col-md-6">
             <label asp-for="CategoryId"></label>
-            <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.category">
-                <option class="form-select" disabled>-- Select Category --</option>
+            <select asp-for="CategoryId" class="form-select" asp-items="@ViewBag.category">
+                <option class="form-select" disabled selected>-- Select Category --</option>
             </select>
             <!--Valid message-->
             <span asp-validation-for="CategoryId" class="text-danger"></span>
         </div>
         <div class="mb-3 col-md-6">
             <label asp-for="CoverTypeId"></label>
-            <select asp-for="CoverTypeId" class="form-control" asp-items="@ViewBag.coverType">
-                <option class="form-select" disabled>-- Select CoverType --</option>
+            <select asp-for="CoverTypeId" class="form-select" asp-items="@ViewBag.coverType">
+                <option class="form-select" disabled selected>-- Select CoverType --</option>
 
             </select>
         </div>

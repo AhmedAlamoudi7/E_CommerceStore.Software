@@ -1,5 +1,7 @@
 using E_CommerceStore_Udemey.DATA.Data;
+using E_CommerceStore_Udemey.DATA.Models;
 using E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices;
+using E_CommerceStore_Udemey.Infrastructure.Services.CompanyServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.CoverTypeServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.FileSerice;
 using E_CommerceStore_Udemey.Infrastructure.Services.Middlewares;
@@ -39,8 +41,18 @@ namespace E_CommerceStore_Udemey.WEB
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<User, IdentityRole>(config =>
+            {
+                config.User.RequireUniqueEmail = true;
+                config.Password.RequireDigit = false;
+                config.Password.RequiredLength = 6;
+                config.Password.RequireLowercase = false;
+                config.Password.RequireNonAlphanumeric = false;
+                config.Password.RequireUppercase = false;
+                config.SignIn.RequireConfirmedEmail = false;
+            }).AddEntityFrameworkStores<ApplicationDbContext>()
+                                 .AddDefaultTokenProviders().AddDefaultUI();
+
             services.AddControllersWithViews();
 
             services.AddAutoMapper(typeof(MapperProfile).Assembly);
@@ -49,6 +61,7 @@ namespace E_CommerceStore_Udemey.WEB
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
+            services.AddScoped<ICompanyService, CompanyService>();
 
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddRazorPages().AddRazorRuntimeCompilation();

@@ -219,18 +219,6 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices
             return mapper.Id;
         }
 
-        //public async Task<int> Update(UpdateContractDto dto)
-        //{
-        //    var contract = await _db.Contracts.SingleOrDefaultAsync(x => !x.IsDelete && x.Id == dto.Id);
-        //    if (contract == null)
-        //    {
-        //        throw new EntityNotFoundException();
-        //    }
-        //    var updatedcontract = _mapper.Map<UpdateContractDto, Contract>(dto, contract);
-        //    _db.Contracts.Update(updatedcontract);
-        //    await _db.SaveChangesAsync();
-        //    return updatedcontract.Id;
-        //}
 
 
         public async Task<int> Update(UpdateCategoryDto dto)

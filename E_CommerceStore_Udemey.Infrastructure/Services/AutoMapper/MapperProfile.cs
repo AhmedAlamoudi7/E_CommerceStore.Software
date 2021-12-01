@@ -41,6 +41,11 @@ namespace FourEstate.Infrastructure.AutoMapper
             CreateMap<Product, UpdateProductDto>()
                 .ForMember(x => x.ImageUrl, x => x.Ignore());
 
+
+            CreateMap<Company, CompanyViewModel>();
+            CreateMap<CreateCompanyDto, Company>();
+            CreateMap<UpdateCompanyDto, Company>();
+            CreateMap<Company, UpdateCompanyDto>();
         }
     }
 }
