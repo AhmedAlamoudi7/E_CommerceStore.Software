@@ -25,7 +25,8 @@ namespace E_CommerceStore_Udemey.DATA.Data
                     context.SeedCategory().Wait();
                     context.SeedCoverType().Wait();
                     context.SeedProduct().Wait();
-  
+                    context.SeedComapny().Wait();
+
 
                 }
                 catch (Exception ex)
@@ -72,6 +73,27 @@ namespace E_CommerceStore_Udemey.DATA.Data
             category.DisplayOrder = 12;
 
             await context.Categories.AddAsync(category);
+            await context.SaveChangesAsync();
+
+
+        }
+        public static async Task SeedComapny(this ApplicationDbContext context)
+        {
+
+            if (await context.Companys.AnyAsync())
+            {
+                return;
+            }
+
+            var company = new Company();
+            company.Name = "Zero Company";
+            company.City = "Gaza";
+            company.PostalCode = "23233";
+            company.State = "Gaza";
+            company.StreetAddress = "Gaza-Aljalaa";
+            company.PhoneNumber = "12312333";
+
+            await context.Companys.AddAsync(company);
             await context.SaveChangesAsync();
 
 

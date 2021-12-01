@@ -1,6 +1,7 @@
 ﻿using E_CommerceStore_Udemey.Core.Dtos;
 using E_CommerceStore_Udemey.Core.Helpers;
 using E_CommerceStore_Udemey.Core.ViewModels;
+using E_CommerceStore_Udemey.DATA.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

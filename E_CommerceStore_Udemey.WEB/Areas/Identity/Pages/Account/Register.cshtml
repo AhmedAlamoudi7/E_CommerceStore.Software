@@ -68,6 +68,11 @@
                             <option disabled selected>--Select Role -- </option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <select asp-for="Input.CompanyId" style="display:none;" asp-items="@Model.Input.CompanyList" class="form-select">
+                            <option disabled selected>--Select Company -- </option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Register</button>
@@ -107,4 +112,19 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+<!--Used To Show Company List Just In Role Company-->
+    <script>
+        $(document).ready(function(){
+            $('#Input_Role').change(function(){
+                var selection= $('#Input_Role Option:Selected').text();
+                if(selection!='Company'){
+                    $('#Input_CompanyId').hide();
+                }
+                else{
+                    $('#Input_CompanyId').show();
+                }
+            })
+        })
+    </script>
 }

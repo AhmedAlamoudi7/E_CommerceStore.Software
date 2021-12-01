@@ -43,8 +43,6 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.CompanyServices
 
             return company;
         }
-
-
         public async Task<List<CompanyViewModel>> GetCompanyName()
         {
             var company = await _Db.Companys.ToListAsync();

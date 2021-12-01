@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using E_CommerceStore_Udemey.Core.Constants;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using E_CommerceStore_Udemey.Infrastructure.Services.CompanyServices;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
 {
@@ -27,6 +29,7 @@ namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly ICompanyService _companyService;
 
 
         public RegisterModel(
@@ -34,7 +37,8 @@ namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
             SignInManager<User> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
+            ICompanyService companyService
             )
         {
             _userManager = userManager;
@@ -42,6 +46,7 @@ namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _companyService = companyService;
         }
 
         [BindProperty]
@@ -81,7 +86,12 @@ namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
             [Display(Name ="Phone Number")]
             public string PhoneNumber { get; set; }
             public string? Role { get; set; }
+            [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
+            public int? CompanyId { get; set; }
+            [ValidateNever]
+            public IEnumerable<SelectListItem> CompanyList { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -99,11 +109,13 @@ namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             Input = new InputModel() {
                 RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
-               {
-                  Text = i,
-                  Value =i
-                })
-                 };
+                {
+                    Text = i,
+                    Value = i
+                }),
+                CompanyList = new SelectList(await _companyService.GetAll(), "Id", "Name"),
+
+            };
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -117,6 +129,10 @@ namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
                 /////
                 var user = new User { UserName = Input.Email, Email = Input.Email ,PhoneNumber =Input.PhoneNumber,FullName =Input.FullName,DOB=Input.DOB };
                 var result = await _userManager.CreateAsync(user, Input.Password);
+                if (Input.Role == RolesConstant.Role_User_Comp)
+                {
+                    user.CompanyId = Input.CompanyId;
+                }
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
