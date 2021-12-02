@@ -8,10 +8,15 @@ namespace E_CommerceStore_Udemey.Core.ViewModels
 {
     public class ShoppingCartViewModel
     {
- 
-       public int Count { get; set; }
 
-        public ProductViewModel ProductVM { get; set; }
+        public int Id { get; set; }
 
+        public ProductViewModel ProductVm { get; set; }
+
+        public int Count { get; set; }
+
+        public UserViewModel UserVm { get; set; }
+
+        public double Price { get; set; }
     }
 }

@@ -13,11 +13,7 @@ namespace E_CommerceStore_Udemey.DATA.Data
             : base(options)
         {
         }
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-            builder.Entity<ShoppingCart>().HasKey(x => x.ProductId);
-        }
+
 
         public DbSet<Category> Categories { get; set; }
         public DbSet<CoverType> CoverTypes { get; set; }

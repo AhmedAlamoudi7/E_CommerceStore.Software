@@ -1,11 +1,14 @@
-﻿using E_CommerceStore_Udemey.Core.ViewModels;
+﻿using E_CommerceStore_Udemey.Core.Dtos;
+using E_CommerceStore_Udemey.Core.ViewModels;
 using E_CommerceStore_Udemey.DATA;
 using E_CommerceStore_Udemey.DATA.Data;
 using E_CommerceStore_Udemey.DATA.Models;
 using E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.CoverTypeServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.ProductService;
+using E_CommerceStore_Udemey.Infrastructure.Services.Repository.IRepository;
 using E_CommerceStore_Udemey.Infrastructure.Services.ShoppingCartServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace E_CommerceStore_Udemey.WEB.Controllers
@@ -27,8 +31,9 @@ namespace E_CommerceStore_Udemey.WEB.Controllers
         private readonly ICoverTypeService _coverTypeService;
         private readonly IShoppingCartService _shoppingCartService;
         private readonly ApplicationDbContext _Db;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext Db, IShoppingCartService shoppingCartService, IProductService productService, ICategoryService categoryService, ICoverTypeService coverTypeService)
+        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, ApplicationDbContext Db, IShoppingCartService shoppingCartService, IProductService productService, ICategoryService categoryService, ICoverTypeService coverTypeService)
         {
             _logger = logger;
             _productService = productService;
@@ -36,6 +41,7 @@ namespace E_CommerceStore_Udemey.WEB.Controllers
             _coverTypeService = coverTypeService;
             _shoppingCartService = shoppingCartService;
             _Db = Db;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IActionResult> Index()
@@ -45,30 +51,85 @@ namespace E_CommerceStore_Udemey.WEB.Controllers
             return View(productList);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> Details(int Id)
-        //{
-        //    //var product = await _productService.Detailes(Id);
-        //    //ShopingCartsViewModel shop = new()
-        //    //{
-        //    //    Product = product,
-        //    //    Count = 1,
-
-        //    //};
-        //    ViewData["category"] = new SelectList(await _categoryService.GetCategoryName(), "Id", "Name");
-        //    ViewData["coverType"] = new SelectList(await _coverTypeService.GetCoverTypeName(), "Id", "CoverName");
-        //    return View(shop);
-        //}
-        public async Task<IActionResult> Details(int Id)
+        public async Task<IActionResult> Details(int productId)
         {
-            shopCartVm shop = new()
+            ShopCartVm shop = new()
             {
-                Product = _Db.Products.Include(x=>x.Category).Include(x=>x.CoverType).SingleOrDefault(x => x.Id == Id),
-                Count = 2
-
+                Product = _Db.Products.Include(x => x.Category).Include(x => x.CoverType).SingleOrDefault(x => x.Id == productId),
+                Count = 2,
+                ProductId = productId
 
             };
+
             return View(shop);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> Details(ShoppingCart
+            shoppingCart)
+        {
+            // var claimsIdentity = (ClaimsIdentity)User.Identity;
+            // var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            // shoppingCart.UserId = claim.Value;
+
+
+            // //ShoppingCart cartFromDb = await _Db.ShoppingCarts.Where(u=>u.ProductId == shoppingCart.ProductId).SingleOrDefaultAsync(
+            // //     u => u.UserId == claim.Value );
+
+            // //if (cartFromDb == null)
+            // ////{
+            // //  await  _Db.ShoppingCarts.AddAsync(shoppingCart);
+            // //  await _Db.SaveChangesAsync();
+
+            // //}
+            // //else
+            // //{
+            // //   _shoppingCartService.IncrementCount(cartFromDb, shoppingCart.Count);
+            // //}
+
+
+            //await _shoppingCartService.Create(shoppingCart);
+
+
+
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            shoppingCart.UserId = claim.Value;
+
+            ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(
+                u => u.UserId == claim.Value && u.ProductId == shoppingCart.ProductId);
+
+
+            if (cartFromDb == null)
+            {
+
+                _unitOfWork.ShoppingCart.Add(shoppingCart);
+                _unitOfWork.Save();
+              
+            }
+            else
+            {
+                _unitOfWork.ShoppingCart.IncrementCount(cartFromDb, shoppingCart.Count);
+                _unitOfWork.Save();
+            }
+
+            return RedirectToAction(nameof(Index));
+
+
+
+
+
+
+
+
+
+
+
+
+
         }
         public IActionResult Privacy()
         {

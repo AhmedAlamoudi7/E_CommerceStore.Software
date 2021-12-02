@@ -46,6 +46,11 @@ namespace FourEstate.Infrastructure.AutoMapper
             CreateMap<CreateCompanyDto, Company>();
             CreateMap<UpdateCompanyDto, Company>();
             CreateMap<Company, UpdateCompanyDto>();
+
+            CreateMap<ShoppingCart, ShoppingCartViewModel>();
+            CreateMap<CreateShoppingCartDto, ShoppingCart>();
+            CreateMap<UpdateShoppingCartDto, ShoppingCart>();
+            CreateMap<ShoppingCart, UpdateShoppingCartDto>();
         }
     }
 }

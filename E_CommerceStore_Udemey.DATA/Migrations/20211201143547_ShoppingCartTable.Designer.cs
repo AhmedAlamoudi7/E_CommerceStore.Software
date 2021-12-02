@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_CommerceStore_Udemey.DATA.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211201115251_ComapnyForignKeyToUserTable")]
-    partial class ComapnyForignKeyToUserTable
+    [Migration("20211201143547_ShoppingCartTable")]
+    partial class ShoppingCartTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -147,7 +147,7 @@ namespace E_CommerceStore_Udemey.DATA.Migrations
 
             modelBuilder.Entity("E_CommerceStore_Udemey.DATA.Models.ShoppingCart", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -155,12 +155,17 @@ namespace E_CommerceStore_Udemey.DATA.Migrations
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductId1")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("ProductId1");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("ShoppingCarts");
                 });
@@ -417,11 +422,17 @@ namespace E_CommerceStore_Udemey.DATA.Migrations
                 {
                     b.HasOne("E_CommerceStore_Udemey.DATA.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId1")
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("E_CommerceStore_Udemey.DATA.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Product");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("E_CommerceStore_Udemey.DATA.Models.User", b =>

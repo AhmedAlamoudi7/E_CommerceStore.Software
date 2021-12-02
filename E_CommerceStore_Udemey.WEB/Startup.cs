@@ -6,7 +6,10 @@ using E_CommerceStore_Udemey.Infrastructure.Services.CoverTypeServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.FileSerice;
 using E_CommerceStore_Udemey.Infrastructure.Services.Middlewares;
 using E_CommerceStore_Udemey.Infrastructure.Services.ProductService;
+using E_CommerceStore_Udemey.Infrastructure.Services.Repository;
+using E_CommerceStore_Udemey.Infrastructure.Services.Repository.IRepository;
 using E_CommerceStore_Udemey.Infrastructure.Services.ShoppingCartServices;
+using E_CommerceStore_Udemey.Infrastructure.Services.Users;
 using FourEstate.Infrastructure.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -62,6 +65,18 @@ namespace E_CommerceStore_Udemey.WEB
             services.AddScoped<IFileService, FileService>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<ICompanyService, CompanyService>();
+            services.AddScoped<IShoppingCartService, ShoppingCartService>();
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            //Cokkies
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
 
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             services.AddRazorPages().AddRazorRuntimeCompilation();

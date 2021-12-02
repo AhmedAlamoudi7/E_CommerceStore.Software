@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace E_CommerceStore_Udemey.DATA
 {
-    public class ShopCartVm
+    public class ShoppingCartVM
     {
-        public int Count { get; set; }
-   
-        public int ProductId { get; set; }
-        public Product Product { get; set; }
+        public IEnumerable<ShoppingCart> ListCart { get; set; }
     }
 }
