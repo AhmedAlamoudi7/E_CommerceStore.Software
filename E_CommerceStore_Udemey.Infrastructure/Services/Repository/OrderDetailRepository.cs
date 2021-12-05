@@ -11,19 +11,19 @@ using System.Threading.Tasks;
 
 namespace E_CommerceStore_Udemey.Infrastructure.Services.Repository
 {
-    //public class OrderDetailRepository : Repository<OrderDetail>, IOrderDetailRepository
-    //{
-    //    private ApplicationDbContext _db;
+    public class OrderDetailRepository : Repository<OrderDetail>, IOrderDetailRepository
+    {
+        private ApplicationDbContext _db;
 
-    //    public OrderDetailRepository(ApplicationDbContext db) : base(db)
-    //    {
-    //        _db = db;
-    //    }
+        public OrderDetailRepository(ApplicationDbContext db) : base(db)
+        {
+            _db = db;
+        }
 
 
-    //    public void Update(OrderDetail obj)
-    //    {
-    //        _db.OrderDetail.Update(obj);
-    //    }
-    //}
+        public void Update(OrderDetail obj)
+        {
+            _db.OrderDetails.Update(obj);
+        }
+    }
 }

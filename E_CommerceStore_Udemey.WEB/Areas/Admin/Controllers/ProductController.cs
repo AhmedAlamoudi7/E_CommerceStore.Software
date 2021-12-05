@@ -1,9 +1,11 @@
-﻿using E_CommerceStore_Udemey.Core.Dtos;
+﻿using E_CommerceStore_Udemey.Core.Constants;
+using E_CommerceStore_Udemey.Core.Dtos;
 using E_CommerceStore_Udemey.DATA.Data;
 using E_CommerceStore_Udemey.DATA.Models;
 using E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.CoverTypeServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.ProductService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -14,6 +16,8 @@ using System.Threading.Tasks;
 namespace E_CommerceStore_Udemey.WEB.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = RolesConstant.Role_Admin)]
+
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _Db;

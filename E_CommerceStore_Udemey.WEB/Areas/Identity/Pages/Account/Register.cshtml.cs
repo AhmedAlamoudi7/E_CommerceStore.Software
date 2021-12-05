@@ -162,11 +162,20 @@ namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        if (User.IsInRole(RolesConstant.Role_Admin))
+                        {
+                            TempData["success"] = "New User Created Successfully";
+                            return Page();
+                        }
+
+                        else
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                        }
                         return LocalRedirect(returnUrl);
                     }
-                }
-                foreach (var error in result.Errors)
+                    }
+                    foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }

@@ -21,7 +21,7 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.Repository
         public Repository(ApplicationDbContext db)
         {
             _db= db;
-            //_db.ShoppingCarts.Include(u => u.Product).Include(u=>u.CoverType);
+           //_db.ShoppingCarts.Include(u => u.Product).Include(u=>u.CoverType);
             this.dbSet= _db.Set<T>();
         }
         public void Add(T entity)

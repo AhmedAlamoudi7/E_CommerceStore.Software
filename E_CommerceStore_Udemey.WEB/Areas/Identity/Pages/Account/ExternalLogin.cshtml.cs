@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using E_CommerceStore_Udemey.Core.Constants;
 
 namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
 {
@@ -52,10 +55,27 @@ namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
             [Required]
             [EmailAddress]
             public string Email { get; set; }
+
+
+            [Required]
+            public string FullName { get; set; }
+            [Display(Name = "Date Of Birth")]
+            [DataType(DataType.Date)]
+            public DateTime? DOB { get; set; }
+
+            [DataType(DataType.PhoneNumber)]
+            [Display(Name = "Phone Number")]
+            public string? StreetAddress { get; set; }
+            public string? City { get; set; }
+            public string? State { get; set; }
+            public string? PostalCode { get; set; }
+            public string? phoneNumber { get; set; }
+
         }
 
         public IActionResult OnGetAsync()
         {
+
             return RedirectToPage("./Login");
         }
 
@@ -102,7 +122,9 @@ namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
                 {
                     Input = new InputModel
                     {
-                        Email = info.Principal.FindFirstValue(ClaimTypes.Email)
+                        Email = info.Principal.FindFirstValue(ClaimTypes.Email),
+                        FullName= info.Principal.FindFirstValue(ClaimTypes.Name)
+
                     };
                 }
                 return Page();
@@ -122,11 +144,16 @@ namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = Input.Email, Email = Input.Email };
+                var user = new User { UserName = Input.Email, Email = Input.Email, PhoneNumber = Input.phoneNumber, FullName = Input.FullName, DOB = Input.DOB, StreetAddress =Input.StreetAddress,
+           City =Input.City, 
+           State = Input.State,
+           PostalCode =Input.PostalCode
+    };
 
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
+                    await _userManager.AddToRoleAsync(user, RolesConstant.Role_User_Indi);
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
@@ -147,7 +174,14 @@ namespace E_CommerceStore_Udemey.WEB.Areas.Identity.Pages.Account
                         // If account confirmation is required, we need to show the link if we don't have a real email sender
                         if (_userManager.Options.SignIn.RequireConfirmedAccount)
                         {
-                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email });
+                            return RedirectToPage("./RegisterConfirmation", new { Email = Input.Email,StreetAddress = Input.StreetAddress,
+                            City = Input.City,
+                            State = Input.State,
+                            PostalCode = Input.PostalCode,
+                            Name = Input.FullName,
+                            PhoneNumber = Input.phoneNumber,
+                            
+                        });
                         }
 
                         await _signInManager.SignInAsync(user, isPersistent: false, info.LoginProvider);

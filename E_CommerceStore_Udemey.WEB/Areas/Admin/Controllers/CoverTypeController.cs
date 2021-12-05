@@ -1,5 +1,7 @@
-﻿using E_CommerceStore_Udemey.Core.Dtos;
+﻿using E_CommerceStore_Udemey.Core.Constants;
+using E_CommerceStore_Udemey.Core.Dtos;
 using E_CommerceStore_Udemey.Infrastructure.Services.CoverTypeServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +11,7 @@ using System.Threading.Tasks;
 namespace E_CommerceStore_Udemey.WEB.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = RolesConstant.Role_Admin)]
     public class CoverTypeController : Controller
     {
        private readonly ICoverTypeService _coverTypeService;

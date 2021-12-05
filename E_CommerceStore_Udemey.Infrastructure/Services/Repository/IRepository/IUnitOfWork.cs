@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BulkyBook.DataAccess.Repository.IRepository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,8 @@ namespace E_CommerceStore_Udemey.Infrastructure.Services.Repository.IRepository
         ICompanyRepository Company {  get; }
         IShoppingCartRepository ShoppingCart {  get; }
         IApplicationUserRepository ApplicationUser {  get; }
-        //IOrderDetailRepository OrderDetail {  get; }
-        //IOrderHeaderRepository OrderHeader {  get; }
+        IOrderDetailRepository OrderDetail { get; }
+        IOrderHeaderRepository OrderHeader { get; }
 
         void Save();
     }

@@ -1,5 +1,7 @@
+using E_CommerceStore_Udemey.DATA;
 using E_CommerceStore_Udemey.DATA.Data;
 using E_CommerceStore_Udemey.DATA.Models;
+using E_CommerceStore_Udemey.Infrastructure.Services;
 using E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.CompanyServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.CoverTypeServices;
@@ -10,16 +12,19 @@ using E_CommerceStore_Udemey.Infrastructure.Services.Repository;
 using E_CommerceStore_Udemey.Infrastructure.Services.Repository.IRepository;
 using E_CommerceStore_Udemey.Infrastructure.Services.ShoppingCartServices;
 using E_CommerceStore_Udemey.Infrastructure.Services.Users;
+using E_CommerceStore_Udemey.Infrastructures.Services;
 using FourEstate.Infrastructure.AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +49,11 @@ namespace E_CommerceStore_Udemey.WEB
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
+            // Strip configration 
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
+
+
+
             services.AddIdentity<User, IdentityRole>(config =>
             {
                 config.User.RequireUniqueEmail = true;
@@ -61,8 +71,9 @@ namespace E_CommerceStore_Udemey.WEB
             services.AddAutoMapper(typeof(MapperProfile).Assembly);
             services.AddScoped<ICategoryService,CategoryService>();
             services.AddScoped<ICoverTypeService, CoverTypeService>();
-            services.AddScoped<IProductService, ProductService>();
-            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<E_CommerceStore_Udemey.Infrastructure.Services.ProductService.IProductService, E_CommerceStore_Udemey.Infrastructure.Services.ProductService.ProductService>();
+            services.AddScoped<E_CommerceStore_Udemey.Infrastructure.Services.FileSerice.IFileService, E_CommerceStore_Udemey.Infrastructure.Services.FileSerice.FileService>();
+            services.AddSingleton<IEmailSender, EmailSender>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
             services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<IShoppingCartService, ShoppingCartService>();
@@ -79,7 +90,22 @@ namespace E_CommerceStore_Udemey.WEB
             });
 
             services.AddControllers().AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            //facebook Login
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                options.AppId = "1150630548674887";
+                options.AppSecret = "b49dc57f2be271ffd4a7b6aab73d30a4";
+            });
+            //AddSession
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(100);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -101,8 +127,13 @@ namespace E_CommerceStore_Udemey.WEB
 
             app.UseRouting();
 
+            // Strip Middleware
+            StripeConfiguration.ApiKey =Configuration.GetSection("Stripe:SecretKey").Get<string>();
+
+
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
             //app.UseExceptionHandler(opts => opts.UseMiddleware<ExceptionHandler>());
             app.UseEndpoints(endpoints =>
             {

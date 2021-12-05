@@ -1,9 +1,11 @@
 ﻿using E_CommerceStore_Udemey.Core.Constans;
+using E_CommerceStore_Udemey.Core.Constants;
 using E_CommerceStore_Udemey.Core.Dtos;
 using E_CommerceStore_Udemey.Core.Helpers;
 using E_CommerceStore_Udemey.DATA.Data;
 using E_CommerceStore_Udemey.DATA.Models;
 using E_CommerceStore_Udemey.Infrastructure.Services.CategoryServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,6 +15,8 @@ using System.Threading.Tasks;
 namespace E_CommerceStore_Udemey.WEB.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = RolesConstant.Role_Admin)]
+
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext _Db;

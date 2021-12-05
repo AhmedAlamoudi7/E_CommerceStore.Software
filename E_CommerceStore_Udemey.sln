@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.31911.196
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_CommerceStore_Udemey.WEB", "E_CommerceStore_Udemey.WEB\E_CommerceStore_Udemey.WEB.csproj", "{5E561699-644E-4085-A881-A8986FC7FDB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E_CommerceStore_Udemey.DATA", "E_CommerceStore_Udemey.DATA\E_CommerceStore_Udemey.DATA.csproj", "{EB1CA95E-E262-4DBA-BCB1-E50D551C167D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_CommerceStore_Udemey.DATA", "E_CommerceStore_Udemey.DATA\E_CommerceStore_Udemey.DATA.csproj", "{EB1CA95E-E262-4DBA-BCB1-E50D551C167D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E_CommerceStore_Udemey.Core", "E_CommerceStore_Udemey.Core\E_CommerceStore_Udemey.Core.csproj", "{25B4301C-3231-4E01-877E-21AB3F0F4786}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_CommerceStore_Udemey.Core", "E_CommerceStore_Udemey.Core\E_CommerceStore_Udemey.Core.csproj", "{25B4301C-3231-4E01-877E-21AB3F0F4786}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E_CommerceStore_Udemey.Infrastructure", "E_CommerceStore_Udemey.Infrastructure\E_CommerceStore_Udemey.Infrastructure.csproj", "{D3B29AB5-88BC-40CD-8D83-372DAA764A58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E_CommerceStore_Udemey.Infrastructure", "E_CommerceStore_Udemey.Infrastructure\E_CommerceStore_Udemey.Infrastructure.csproj", "{D3B29AB5-88BC-40CD-8D83-372DAA764A58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

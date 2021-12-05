@@ -36,7 +36,10 @@ namespace E_CommerceStore_Udemey.DATA.Models
         public Company Company { get; set; }
 
 
-
+        public string? StreetAddress { get; set; }
+        public string? City { get; set; }
+        public string? State { get; set; }
+        public string? PostalCode { get; set; }
         public User()
         {
             IsDelete = false;

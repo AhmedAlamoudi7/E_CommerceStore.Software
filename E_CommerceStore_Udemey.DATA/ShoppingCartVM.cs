@@ -10,5 +10,6 @@ namespace E_CommerceStore_Udemey.DATA
     public class ShoppingCartVM
     {
         public IEnumerable<ShoppingCart> ListCart { get; set; }
+        public OrderHeader OrderHeader { get; set; }
     }
 }

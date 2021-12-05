@@ -1,4 +1,5 @@
-﻿using E_CommerceStore_Udemey.Core.Dtos;
+﻿using E_CommerceStore_Udemey.Core.Constants;
+using E_CommerceStore_Udemey.Core.Dtos;
 using E_CommerceStore_Udemey.Core.ViewModels;
 using E_CommerceStore_Udemey.DATA;
 using E_CommerceStore_Udemey.DATA.Data;
@@ -9,6 +10,7 @@ using E_CommerceStore_Udemey.Infrastructure.Services.ProductService;
 using E_CommerceStore_Udemey.Infrastructure.Services.Repository.IRepository;
 using E_CommerceStore_Udemey.Infrastructure.Services.ShoppingCartServices;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -64,37 +66,73 @@ namespace E_CommerceStore_Udemey.WEB.Controllers
             return View(shop);
         }
 
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //[Authorize]
+        //public async Task<IActionResult> Details(ShoppingCart
+        //    shoppingCart)
+        //{
+        //    // var claimsIdentity = (ClaimsIdentity)User.Identity;
+        //    // var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+        //    // shoppingCart.UserId = claim.Value;
+
+
+        //    // //ShoppingCart cartFromDb = await _Db.ShoppingCarts.Where(u=>u.ProductId == shoppingCart.ProductId).SingleOrDefaultAsync(
+        //    // //     u => u.UserId == claim.Value );
+
+        //    // //if (cartFromDb == null)
+        //    // ////{
+        //    // //  await  _Db.ShoppingCarts.AddAsync(shoppingCart);
+        //    // //  await _Db.SaveChangesAsync();
+
+        //    // //}
+        //    // //else
+        //    // //{
+        //    // //   _shoppingCartService.IncrementCount(cartFromDb, shoppingCart.Count);
+        //    // //}
+
+
+        //    //await _shoppingCartService.Create(shoppingCart);
+
+
+
+
+        //    var claimsIdentity = (ClaimsIdentity)User.Identity;
+        //    var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+        //    shoppingCart.UserId = claim.Value;
+
+        //    ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(
+        //        u => u.UserId == claim.Value && u.ProductId == shoppingCart.ProductId);
+
+
+        //    if (cartFromDb == null)
+        //    {
+
+        //        _unitOfWork.ShoppingCart.Add(shoppingCart);
+        //        _unitOfWork.Save();
+        //        HttpContext.Session.SetInt32(RolesConstant.SessionCart,
+        //       _unitOfWork.ShoppingCart.GetAll(u => u.UserId == claim.Value).ToList().Count);
+        //    }
+        //    else
+        //    {
+        //        _unitOfWork.ShoppingCart.IncrementCount(cartFromDb, shoppingCart.Count);
+        //        _unitOfWork.Save();
+        //    }
+
+        //    return RedirectToAction(nameof(Index));
+
+        //}
+
+
+
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> Details(ShoppingCart
-            shoppingCart)
+        public IActionResult Details(ShoppingCart shoppingCart)
         {
-            // var claimsIdentity = (ClaimsIdentity)User.Identity;
-            // var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            // shoppingCart.UserId = claim.Value;
-
-
-            // //ShoppingCart cartFromDb = await _Db.ShoppingCarts.Where(u=>u.ProductId == shoppingCart.ProductId).SingleOrDefaultAsync(
-            // //     u => u.UserId == claim.Value );
-
-            // //if (cartFromDb == null)
-            // ////{
-            // //  await  _Db.ShoppingCarts.AddAsync(shoppingCart);
-            // //  await _Db.SaveChangesAsync();
-
-            // //}
-            // //else
-            // //{
-            // //   _shoppingCartService.IncrementCount(cartFromDb, shoppingCart.Count);
-            // //}
-
-
-            //await _shoppingCartService.Create(shoppingCart);
-
-
-
-
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             shoppingCart.UserId = claim.Value;
@@ -108,7 +146,8 @@ namespace E_CommerceStore_Udemey.WEB.Controllers
 
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
                 _unitOfWork.Save();
-              
+                HttpContext.Session.SetInt32(RolesConstant.SessionCart,
+                    _unitOfWork.ShoppingCart.GetAll(u => u.UserId == claim.Value).ToList().Count);
             }
             else
             {
@@ -116,21 +155,16 @@ namespace E_CommerceStore_Udemey.WEB.Controllers
                 _unitOfWork.Save();
             }
 
+
             return RedirectToAction(nameof(Index));
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
+
+
+
+
+
+
+
         public IActionResult Privacy()
         {
             return View();
